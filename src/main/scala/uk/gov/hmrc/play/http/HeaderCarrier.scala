@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.play.http
 
-import play.api.Play
+import play.api.{Logger, Play}
 import play.api.mvc.{Cookies, Headers, Session}
 import uk.gov.hmrc.play.http.logging._
 
@@ -134,6 +134,7 @@ object HeaderCarrier {
     val remaining = headers.keys.
       filterNot(HeaderNames.explicitlyIncludedHeaders.contains(_)).
       filter(whitelistedHeaders.contains(_))
+    Logger.debug(s"Headers before filtering: [${headers.keys.mkString(",")}], after filtering: [${remaining.mkString(",")}]")
     remaining.map(h => h -> headers.get(h).getOrElse("")).toSeq
   }
 
